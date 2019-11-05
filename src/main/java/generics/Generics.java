@@ -95,6 +95,7 @@ interface Containtment<T>{
     boolean contains(T o);
 }
 
+//если класс реализует обощенный интерфейс, то он тоже должен быть обобщенным
 class MyClass<T> implements Containtment<T>{
     T[] arrayRef;
     MyClass(T[]o){
