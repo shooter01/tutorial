@@ -11,14 +11,18 @@ import main.java.java8.streams.Streams;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public class Main {
     public static void main(String[] args) {
 
         Streams streams  = new Streams();
-        Streams.main();
+        streams.testFilterAccounts();
     }
 }
 
