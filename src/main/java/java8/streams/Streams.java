@@ -186,12 +186,26 @@ public class Streams {
 
     }
 
+    public void testTernaryIntPredicate(){
+
+        TernaryIntPredicate ternaryIntPredicate = (arg1, arg2, arg3)->(arg1 != arg2 && arg1 != arg3 && arg2 != arg3) ? true : false;
+
+
+        System.out.println(ternaryIntPredicate.test(20, 30, 20));
+
+    }
+
 
     public static <T> List<T> filter(List<T> elems, Predicate<T> predicate){
         return elems.stream()
                 .filter(predicate)
                 .collect(Collectors.toList());
     }
+}
+
+@FunctionalInterface
+interface TernaryIntPredicate{
+    boolean test(int arg1, int arg2, int arg3);
 }
 
 

@@ -22,7 +22,7 @@ public class Main {
     public static void main(String[] args) {
 
         Streams streams  = new Streams();
-        streams.testFilterAccounts();
+        streams.testTernaryIntPredicate();
     }
 }
 
