@@ -25,6 +25,8 @@ public class Main {
         Streams streams  = new Streams();
         streams.testListOfPredicates();*/
 
+        System.out.println(Sorting.sortUsingTreeSet());
+
 
         System.out.println(Arrays.toString(Algorithms.bubbleSort(new int[]{3, 4, 5, 6, 2, 1, 5})));
 

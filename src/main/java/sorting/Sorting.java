@@ -23,6 +23,9 @@ public class Sorting {
 
     }
 
+
+
+    //Animal implements comparable !!!!
     public void sortListUsingComparableInterface(){
 
         ArrayList arrayList = new ArrayList();
@@ -32,6 +35,20 @@ public class Sorting {
         Collections.sort(arrayList);
         System.out.println(arrayList);
     }
+
+    public static Set<Animal> sortUsingTreeSet(){
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(new Animal(1));
+        arrayList.add(new Animal(2));
+        arrayList.add(new Animal(3));
+
+        Set<Animal> set = new TreeSet<>(Comparator.comparing(Animal::getAge).reversed());
+        set.addAll(arrayList);
+        return set;
+//        System.out.println(set);
+    }
+
+
 
     public void sortListUsingComparatorJava8(){
 
