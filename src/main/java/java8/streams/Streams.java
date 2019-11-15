@@ -2,7 +2,9 @@ package main.java.java8.streams;
 
 import java.math.BigInteger;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.stream.*;
 
@@ -187,12 +189,39 @@ public class Streams {
     }
 
     public void testTernaryIntPredicate(){
-
         TernaryIntPredicate ternaryIntPredicate = (arg1, arg2, arg3)->(arg1 != arg2 && arg1 != arg3 && arg2 != arg3) ? true : false;
-
-
         System.out.println(ternaryIntPredicate.test(20, 30, 20));
+    }
 
+
+    public void testCombinedproducer(){
+        Consumer<Integer> printer = System.out::println;
+        Consumer<Integer> devNull = (val) -> { int v = val * 2;
+            System.out.println("devnull"); };
+
+        Consumer<Integer> combinedConsumer = devNull.andThen(devNull.andThen(printer));
+        combinedConsumer.accept(300);
+    }
+
+    public void testListOfPredicates(){
+
+        IntPredicate a1 = (arg1)->true;
+        IntPredicate a2 = (arg2)->false;
+        IntPredicate a3 = (arg3)->false;
+
+
+        List<IntPredicate> list = Arrays.asList(a1,a2,a3);
+
+        IntPredicate mypred = Streams.disjunctAll(list);
+        System.out.println(mypred.test(1));;
+
+
+    }
+
+
+
+    public static IntPredicate disjunctAll(List<IntPredicate> predicates) {
+        return predicates.stream().reduce((value)->false, IntPredicate::or);
     }
 
 
