@@ -21,14 +21,17 @@ import java.util.stream.LongStream;
 
 public class Main {
     public static void main(String[] args) {
-/*
+
+
+
+
         Streams streams  = new Streams();
-        streams.testListOfPredicates();*/
+        System.out.println(Streams.createBadWordsDetectingStream("bad ass bass trick", Arrays.asList("bad", "bass")).collect(Collectors.toList()));
 
-        System.out.println(Sorting.sortUsingTreeSet());
-
-
-        System.out.println(Arrays.toString(Algorithms.bubbleSort(new int[]{3, 4, 5, 6, 2, 1, 5})));
+//        System.out.println(Sorting.sortUsingTreeSet());
+//
+//
+//        System.out.println(Arrays.toString(Algorithms.bubbleSort(new int[]{3, 4, 5, 6, 2, 1, 5})));
 
 
     }

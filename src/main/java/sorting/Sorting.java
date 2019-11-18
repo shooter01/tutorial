@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Comparator.reverseOrder;
+
 public class Sorting {
 
     public void sortMapUsingStream(){
@@ -52,6 +54,18 @@ public class Sorting {
 
     public void sortListUsingComparatorJava8(){
 
+        List<Student> students = new ArrayList();
+        students.add(new Student(1, "Alice"));
+        students.add(new Student(3, "Ben"));
+        students.add(new Student(3, "Tony"));
+
+        students.sort(Comparator.comparing(Student::getCsGrade, reverseOrder())
+                        .thenComparing(Student::getName));
+
+    }
+
+    public void sortListUsingComparingAndThenComparingJava8(){
+
         ArrayList arrayList = new ArrayList();
         arrayList.add(new Animal(1));
         arrayList.add(new Animal(2));
@@ -88,9 +102,14 @@ public class Sorting {
 
 class Animal implements Comparable<Animal> {
     private int age;
+    private String name;
 
     Animal(int age){
         this.age = age;
+    }
+
+    Animal(int age, String name){
+        this.name = name;
     }
 
     @Override
@@ -105,6 +124,14 @@ class Animal implements Comparable<Animal> {
                 '}';
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setAge(int age) {
         this.age = age;
     }
@@ -113,3 +140,33 @@ class Animal implements Comparable<Animal> {
         return age;
     }
 }
+
+
+class Student {
+    int csGrade;
+    String name;
+
+    public Student(int csGrade, String name) {
+        this.csGrade = csGrade;
+        this.name = name;
+    }
+
+    public int getCsGrade() {
+        return csGrade;
+    }
+
+    public void setCsGrade(int csGrade) {
+        this.csGrade = csGrade;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+
+

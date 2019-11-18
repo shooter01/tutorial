@@ -1,6 +1,7 @@
 package main.java.java8.streams;
 
 import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -10,17 +11,17 @@ import java.util.stream.*;
 
 public class Streams {
     public static void main() {
-        List<Integer> values = new ArrayList<>(Arrays.asList(1,2,3,4));
-        Predicate<Integer> a = x->x>=3;
+        List<Integer> values = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
+        Predicate<Integer> a = x -> x >= 3;
         List<Integer> newvals = values.stream().filter(a).collect(Collectors.toList());
         System.out.println(newvals);
     }
 
     //creating streams
-    public void create(){
+    public void create() {
 
         //create stream from COLLECTION
-        List<Integer> list = Arrays.asList(1,2,3,4);
+        List<Integer> list = Arrays.asList(1, 2, 3, 4);
         Stream<Integer> stream = list.stream();
 
         Set<String> somestrings = new HashSet<>(Arrays.asList("one", "two", "three"));
@@ -43,13 +44,13 @@ public class Streams {
         DoubleStream doubleStream1 = DoubleStream.generate(Math::random);
 
         //use Stream.iterate()
-        IntStream oddNumbersStream = IntStream.iterate(1, x-> x+2);
+        IntStream oddNumbersStream = IntStream.iterate(1, x -> x + 2);
 
         //Use Stream.range() or Stream.rangeClosed(). Method rangeClosed() includes an upper bound.
         LongStream rangedStream = LongStream.rangeClosed(100_000, 1_000_000);
     }
 
-    public void mapMethod(){
+    public void mapMethod() {
         final List<Book> javaBooks = Stream.of(
                 new Book("asd", 2013, Arrays.asList("Arunda")),
                 new Book("asdas", 2013, Arrays.asList("Steve", "William"))
@@ -57,21 +58,20 @@ public class Streams {
 
         final List<String> authors = javaBooks
                 .stream()
-                .flatMap(book->book.getAuthors().stream())
+                .flatMap(book -> book.getAuthors().stream())
                 .distinct()
                 .collect(Collectors.toList());
-
 
 
         System.out.println(authors);
     }
 
-    public void reduceMethod(){
-        int sum = Arrays.asList(1,2,3,4,5,6,7).stream().reduce(0, (acc, elem)->acc + elem);
+    public void reduceMethod() {
+        int sum = Arrays.asList(1, 2, 3, 4, 5, 6, 7).stream().reduce(0, (acc, elem) -> acc + elem);
         System.out.println(sum);
     }
 
-    public void foreachMethod(){
+    public void foreachMethod() {
 
         List<Book> list = Arrays.asList(
                 new Book("lol", 1987, Arrays.asList("1", "2")),
@@ -79,11 +79,11 @@ public class Streams {
                 new Book("lol3", 1989, Arrays.asList("1", "2"))
         );
 
-        list.stream().forEach(a->a.setAuthors(Arrays.asList("33")));
-        list.stream().forEach(x-> System.out.println(x.getAuthors()));
+        list.stream().forEach(a -> a.setAuthors(Arrays.asList("33")));
+        list.stream().forEach(x -> System.out.println(x.getAuthors()));
     }
 
-    public void collectorsMethod(){
+    public void collectorsMethod() {
 
         List<Book> list = Arrays.asList(
                 new Book("lol", 1987, Arrays.asList("1", "2")),
@@ -95,7 +95,7 @@ public class Streams {
         System.out.println(authors);
     }
 
-    public void colllectorsPartitionBy(){
+    public void colllectorsPartitionBy() {
 
         List<Book> list = Arrays.asList(
                 new Book("lol", 1987, Arrays.asList("1", "2")),
@@ -104,11 +104,11 @@ public class Streams {
         );
 
         Map<Boolean, List<Book>> partByyear = list.stream()
-                .collect(Collectors.partitioningBy(a->a.getYear() == 1987));
-        partByyear.get(false).stream().forEach(a-> System.out.println(a.getYear()));
+                .collect(Collectors.partitioningBy(a -> a.getYear() == 1987));
+        partByyear.get(false).stream().forEach(a -> System.out.println(a.getYear()));
     }
 
-    public void colllectorsGroupingBy(){
+    public void colllectorsGroupingBy() {
 
         List<Book> list = Arrays.asList(
                 new Book("lol", 1987, Arrays.asList("1", "2")),
@@ -121,7 +121,7 @@ public class Streams {
         System.out.println(groupByYear);
     }
 
-    public void downstreamCollector(){
+    public void downstreamCollector() {
 
         List<Book> list = Arrays.asList(
                 new Book("lol", 1987, Arrays.asList("1", "2"), Book.State.ACTIVE),
@@ -135,7 +135,8 @@ public class Streams {
 
         System.out.println(sumByStates);
     }
-    public void parallelStreams(){
+
+    public void parallelStreams() {
 
         List<String> list = Arrays.asList("Java", "scala", "kotlin", "C#");
 
@@ -144,18 +145,19 @@ public class Streams {
                 .collect(Collectors.toList());
 
 
-        List<Integer> intList = Arrays.asList(1,2,3,4,5,6,7);
+        List<Integer> intList = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
 
        /* intList.parallelStream()b .map(Function.identity())
                 .forEach(n->System.out.println(n + " "));*/
 
 //        System.out.println(str);
     }
-    public void testDistinct(){
+
+    public void testDistinct() {
 
         List<String> str = Arrays.asList("java scala java clojure clojure".split(" "));
 
-        Function<List<String>, List<String>> clos = (mystr)->{
+        Function<List<String>, List<String>> clos = (mystr) -> {
             return mystr.stream().distinct().collect(Collectors.toList());
         };
 
@@ -163,18 +165,20 @@ public class Streams {
         System.out.println(clos.apply(str));
 
     }
-    public void varsFromClosures(){
+
+    public void varsFromClosures() {
 
         int a = 2;
         int b = 3;
         int c = 4;
 
-        Function<Integer, Double> y = (x)-> (double) a*Math.pow(x,2)+b*x+c*x;
+        Function<Integer, Double> y = (x) -> (double) a * Math.pow(x, 2) + b * x + c * x;
 
         System.out.println(y.apply(2));
 
     }
-    public void testFilterAccounts(){
+
+    public void testFilterAccounts() {
 
         List<Account> accounts = Arrays.asList(
                 new Account("Aidar", 126786783L, true),
@@ -182,50 +186,67 @@ public class Streams {
                 new Account("33", 0L, false)
         );
 
-        List<Account> nonEmptyAccounts = filter(accounts, x->x.getBalance()>0);// write your code here
+        List<Account> nonEmptyAccounts = filter(accounts, x -> x.getBalance() > 0);// write your code here
 
         System.out.println(nonEmptyAccounts);
 
     }
 
-    public void testTernaryIntPredicate(){
-        TernaryIntPredicate ternaryIntPredicate = (arg1, arg2, arg3)->(arg1 != arg2 && arg1 != arg3 && arg2 != arg3) ? true : false;
+    public void testTernaryIntPredicate() {
+        TernaryIntPredicate ternaryIntPredicate = (arg1, arg2, arg3) -> (arg1 != arg2 && arg1 != arg3 && arg2 != arg3) ? true : false;
         System.out.println(ternaryIntPredicate.test(20, 30, 20));
     }
 
 
-    public void testCombinedproducer(){
+    public void testCombinedproducer() {
         Consumer<Integer> printer = System.out::println;
-        Consumer<Integer> devNull = (val) -> { int v = val * 2;
-            System.out.println("devnull"); };
+        Consumer<Integer> devNull = (val) -> {
+            int v = val * 2;
+            System.out.println("devnull");
+        };
 
         Consumer<Integer> combinedConsumer = devNull.andThen(devNull.andThen(printer));
         combinedConsumer.accept(300);
     }
 
-    public void testListOfPredicates(){
+    public void testListOfPredicates() {
 
-        IntPredicate a1 = (arg1)->true;
-        IntPredicate a2 = (arg2)->false;
-        IntPredicate a3 = (arg3)->false;
+        IntPredicate a1 = (arg1) -> true;
+        IntPredicate a2 = (arg2) -> false;
+        IntPredicate a3 = (arg3) -> false;
 
-
-        List<IntPredicate> list = Arrays.asList(a1,a2,a3);
+        List<IntPredicate> list = Arrays.asList(a1, a2, a3);
 
         IntPredicate mypred = Streams.disjunctAll(list);
-        System.out.println(mypred.test(1));;
+        System.out.println(mypred.test(1));
+    }
 
 
+    public static boolean isPrime(final long number) {
+        System.out.println(number);
+        if(number == 2)
+            return true;
+        else
+            return !LongStream.range(2, number).anyMatch((x)->{
+                System.out.println(x);
+                    return number % x == 0;
+            });
+        // write your code here
+    }
+
+
+    public static Stream<String> createBadWordsDetectingStream(String text, List<String> badWords) {
+        return Arrays.stream(text.split(" ")).filter(x->badWords.contains(x));// write your stream here
     }
 
 
 
     public static IntPredicate disjunctAll(List<IntPredicate> predicates) {
-        return predicates.stream().reduce((value)->false, IntPredicate::or);
+        return predicates.stream().reduce((value) -> false, IntPredicate::or);
     }
 
 
-    public static <T> List<T> filter(List<T> elems, Predicate<T> predicate){
+    public static <T> List<T> filter(List<T> elems, Predicate<T> predicate) {
         return elems.stream()
                 .filter(predicate)
                 .collect(Collectors.toList());
@@ -233,7 +254,7 @@ public class Streams {
 }
 
 @FunctionalInterface
-interface TernaryIntPredicate{
+interface TernaryIntPredicate {
     boolean test(int arg1, int arg2, int arg3);
 }
 
@@ -316,6 +337,7 @@ class Book {
         this.currentState = currentState;
     }
 
+
     public String getName() {
         return name;
     }
@@ -338,5 +360,24 @@ class Book {
 
     public void setAuthors(List<String> authors) {
         this.authors = authors;
+    }
+}
+
+
+
+
+/**
+ * Immutable class for representing requests.
+ * If you need to change the request data then create new request.
+ */
+class Request {
+    private final String data;
+
+    public Request(String requestData) {
+        this.data = requestData;
+    }
+
+    public String getData() {
+        return data;
     }
 }
