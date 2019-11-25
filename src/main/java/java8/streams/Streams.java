@@ -1,5 +1,8 @@
 package main.java.java8.streams;
 
+
+import main.java.java8.helpers.*;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.*;
@@ -136,6 +139,8 @@ public class Streams {
         System.out.println(sumByStates);
     }
 
+
+
     public void parallelStreams() {
 
         List<String> list = Arrays.asList("Java", "scala", "kotlin", "C#");
@@ -234,22 +239,97 @@ public class Streams {
         // write your code here
     }
 
+    public static IntStream createFilteringStream(IntStream evenStream, IntStream oddStream) {
+        return IntStream.concat(evenStream, oddStream).filter(x->x%3 == 0 && x%5==0);// write your stream here
+    }
+
 
     public static Stream<String> createBadWordsDetectingStream(String text, List<String> badWords) {
         return Arrays.stream(text.split(" ")).filter(x->badWords.contains(x));// write your stream here
     }
 
-
+    public static long factorial(long n) {
+        return LongStream.rangeClosed(1, n).reduce(1, (acc, element)->acc*element);// write your code here
+    }
 
     public static IntPredicate disjunctAll(List<IntPredicate> predicates) {
         return predicates.stream().reduce((value) -> false, IntPredicate::or);
     }
 
+    public static long sumOfOddNumbersInRange(long start, long end) {
+        return LongStream.rangeClosed(start, end).filter(x->x%2!=0).sum();
+        // write your code here
+    }
 
+    public static void numbers() {
+        List<Integer> numbers = Stream.of(1, 2, 3, 4, 5).collect(Collectors.toList());
+
+        //преобразует в вид [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5]
+        List<Integer> generated = numbers.stream()
+                .flatMap(n -> Stream.generate(() -> n).limit(n))
+                .collect(Collectors.toList());
+
+        //преобразует в вид [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5]
+        generated = numbers.stream()
+                .flatMapToInt(n -> IntStream.rangeClosed(1, n))
+                .boxed()
+                .collect(Collectors.toList());
+
+        //преобразует в вид [1, 2, 3, 3, 4, 5, 4, 5, 6, 7, 5, 6, 7, 8, 9]
+        generated = numbers.stream()
+                .flatMapToInt(n -> IntStream.iterate(n, val -> val + 1).limit(n))
+                .boxed()
+                .collect(Collectors.toList());
+
+        //преобразует в вид [1, 2, 3, 4, 5]
+        generated = numbers.stream()
+                .flatMap(Stream::of)
+                .collect(Collectors.toList());
+
+        System.out.println(generated);
+    }
+
+    //
     public static <T> List<T> filter(List<T> elems, Predicate<T> predicate) {
         return elems.stream()
                 .filter(predicate)
                 .collect(Collectors.toList());
+    }
+
+    //ищем пользователей у которых баланс больше нуля и у которых есть отмененные транзакции, считаем сумму этих транзакций
+    public static long calcSumOfCanceledTransOnNonEmptyAccounts(List<main.java.java8.helpers.Account> accounts) {
+
+/*        List<main.java.java8.helpers.Account> globalList = new ArrayList<>();
+
+        Date created =  new Date();
+
+        main.java.java8.helpers.Account account1 = new main.java.java8.helpers.Account("1001", 0L, false);
+        List<Transaction> transactions = new ArrayList<>();
+        transactions.add(new Transaction("774cedda-9cde-4f53-8bc2-5b4d4859772a", State.CANCELED,1000L, created));
+        account1.setTransactions(transactions);
+        globalList.add(account1);
+
+        main.java.java8.helpers.Account account2 = new main.java.java8.helpers.Account("1002", 8000L, false);
+        List<Transaction> transactions2 = new ArrayList<>();
+        transactions2.add(
+                new Transaction("337868a7-f469-43c0-9042-3422ce37ee26a", State.FINISHED,8000L, created)
+        );
+        transactions2.add(
+                new Transaction("f8047f86-89e7-4226-8b75-74c55a4d7e31", State.CANCELED,10000L, created)
+        );
+        account2.setTransactions(transactions2);
+
+        globalList.add(account2);*/
+        return accounts.stream().filter(x->x.getBalance()>0L).flatMap(account -> account.getTransactions().stream()).filter(x->x.getState()
+                .equals(State.CANCELED)).map(Transaction::getSum).reduce(0L, Long::sum);
+
+
+
+    }
+
+    //выборка людей из департамента который начинается с 111 и у кого зарплата выше порога
+    public static long calcNumberOfEmployees(List<Department> departments, long threshold) {
+        return departments.stream().filter(x->x.getCode().startsWith("111-")).flatMap(x->x.getEmployees().stream()).filter(employee -> employee.getSalary() >= threshold).count();
     }
 }
 
@@ -257,6 +337,9 @@ public class Streams {
 interface TernaryIntPredicate {
     boolean test(int arg1, int arg2, int arg3);
 }
+
+
+
 
 
 class Account {
