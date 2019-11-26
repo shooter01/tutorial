@@ -2,15 +2,16 @@ package main.java.java8.streams;
 
 
 import main.java.java8.helpers.*;
-import java.math.BigDecimal;
+
 import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.stream.*;
+
+import static java.util.stream.Collectors.reducing;
 
 public class Streams {
     public static void main() {
@@ -322,14 +323,19 @@ public class Streams {
         globalList.add(account2);*/
         return accounts.stream().filter(x->x.getBalance()>0L).flatMap(account -> account.getTransactions().stream()).filter(x->x.getState()
                 .equals(State.CANCELED)).map(Transaction::getSum).reduce(0L, Long::sum);
-
-
-
     }
 
     //выборка людей из департамента который начинается с 111 и у кого зарплата выше порога
     public static long calcNumberOfEmployees(List<Department> departments, long threshold) {
         return departments.stream().filter(x->x.getCode().startsWith("111-")).flatMap(x->x.getEmployees().stream()).filter(employee -> employee.getSalary() >= threshold).count();
+    }
+
+    public static Long produceOfIntegers(List<Integer> list){
+        System.out.println(list);
+        return list.stream().collect(reducing(1L,
+                Integer::longValue,
+                (d, n)->d*n*n
+        ));
     }
 }
 
@@ -337,10 +343,6 @@ public class Streams {
 interface TernaryIntPredicate {
     boolean test(int arg1, int arg2, int arg3);
 }
-
-
-
-
 
 class Account {
     String number;
