@@ -297,6 +297,15 @@ public class Streams {
                 .collect(Collectors.toList());
     }
 
+    public static Map<Boolean, List<String>> isPolindrome(String[] words){
+        Map<Boolean, List<String>> palindromeOrNoMap =
+                Arrays.stream(words)
+                        .collect(Collectors.partitioningBy(x -> {
+                            return x.equals(new StringBuilder(x).reverse().toString());
+                        }));
+        return palindromeOrNoMap;
+    }
+
     //ищем пользователей у которых баланс больше нуля и у которых есть отмененные транзакции, считаем сумму этих транзакций
     public static long calcSumOfCanceledTransOnNonEmptyAccounts(List<main.java.java8.helpers.Account> accounts) {
 
