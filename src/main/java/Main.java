@@ -26,13 +26,8 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
+        System.out.println(Streams.createPrimesFilteringStream(4, 20));;
 
-        String[] words = new String[]{"aaaa", "aaa", "a", "aa"};
-        System.out.println(Streams.isPolindrome(words));;
-
-        /*List<Integer> list = new ArrayList<>(List.of(1,2));
-
-        System.out.println(Streams.produceOfIntegers(list));;*/
     }
 
 

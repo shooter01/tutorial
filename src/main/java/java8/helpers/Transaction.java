@@ -7,12 +7,28 @@ public class Transaction {
    State state;
    Long sum;
    Date created;
+   Account account;
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     public Transaction(String uuid, State state, Long sum, Date created) {
         this.uuid = uuid;
         this.state = state;
         this.sum = sum;
         this.created = created;
+    }
+    public Transaction(String uuid, State state, Long sum, Date created, Account account) {
+        this.uuid = uuid;
+        this.state = state;
+        this.sum = sum;
+        this.created = created;
+        this.account = account;
     }
 
     public String getUuid() {

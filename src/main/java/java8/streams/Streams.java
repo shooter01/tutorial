@@ -229,12 +229,10 @@ public class Streams {
 
 
     public static boolean isPrime(final long number) {
-        System.out.println(number);
         if(number == 2)
             return true;
         else
             return !LongStream.range(2, number).anyMatch((x)->{
-                System.out.println(x);
                     return number % x == 0;
             });
         // write your code here
@@ -337,6 +335,31 @@ public class Streams {
     //выборка людей из департамента который начинается с 111 и у кого зарплата выше порога
     public static long calcNumberOfEmployees(List<Department> departments, long threshold) {
         return departments.stream().filter(x->x.getCode().startsWith("111-")).flatMap(x->x.getEmployees().stream()).filter(employee -> employee.getSalary() >= threshold).count();
+    }
+
+
+    //сумма транзакций людей, разделенных по аккаунтам
+    public void sumOfAccounts() {
+        String s1 = UUID.randomUUID().toString();
+        String s2 = UUID.randomUUID().toString();
+        List<Transaction> transactionList  = Arrays.asList(
+                new Transaction(UUID.randomUUID().toString(), State.PROCESSING, 35000L, new Date(), new main.java.java8.helpers.Account(s1, 20000L, false)),
+                new Transaction(UUID.randomUUID().toString(), State.PROCESSING, 25000L, new Date(), new main.java.java8.helpers.Account(s1, 10000L, false)),
+                new Transaction(UUID.randomUUID().toString(), State.PROCESSING, 45000L, new Date(), new main.java.java8.helpers.Account(s2, 60000L, false))
+        );
+
+        Map<String, Long> totalSumOfTransByEachAccount = transactionList.stream()
+                        .collect(Collectors.groupingBy((tr)->tr.getAccount().getNumber(), Collectors.summingLong(Transaction::getSum)));
+    }
+
+    public static long createPrimesFilteringStream(long rangeBegin, long rangeEnd) {
+         return LongStream.rangeClosed(rangeBegin, rangeEnd).parallel().filter((x)->{
+            boolean a = isPrime(x);
+             System.out.printf("%s - %s", x, a);
+             System.out.println();
+             return a;
+
+        }).count();
     }
 
     public static Long produceOfIntegers(List<Integer> list){
