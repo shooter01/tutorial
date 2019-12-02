@@ -5,10 +5,7 @@ import main.java.java8.helpers.*;
 
 import java.math.BigInteger;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.*;
 
 import static java.util.stream.Collectors.reducing;
@@ -360,6 +357,11 @@ public class Streams {
              return a;
 
         }).count();
+    }
+
+    public static void carrying(){
+        IntFunction<IntFunction<IntFunction<Integer>>> curriedFun = (x)->(y)->(z)->x+(y*y)+(z*z*z); // a curried function
+
     }
 
     public static Long produceOfIntegers(List<Integer> list){

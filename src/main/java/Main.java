@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
-        System.out.println(Streams.createPrimesFilteringStream(4, 20));;
+        System.out.println(Streams.carrying());
 
     }
 
